@@ -1,31 +1,53 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
-import { InjectTypeDorm, TypeDormConnection } from '@nest-dynamodb/typedorm';
 import { Customer } from './entities/customer.entity';
+import { v4 as uuidv4 } from 'uuid';
+import { CustomerRepository } from '../dynamodb/repositories/customer.repository';
 
 @Injectable()
 export class CustomerService {
-  constructor(
-  ) {}
+  constructor(private readonly customerRepository: CustomerRepository) {}
 
   async create(createCustomerDto: CreateCustomerDto) {
+    const customer = new Customer();
+    customer.id = uuidv4();
+    customer.name = createCustomerDto.name;
+    customer.email = createCustomerDto.email;
+    return this.customerRepository.create(customer);
+  }
+
+  async searchAllFields(searchTerm: string) {
+    return this.customerRepository.searchAllFields(searchTerm);
   }
 
   async findAll() {
-    const item = await this.connection.entityManager.find(Customer, {});
-    return { item };
+    return this.customerRepository.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} customer`;
+  async findOne(id: string) {
+    const item = await this.customerRepository.findOne(id);
+    if (!item) {
+      throw new NotFoundException();
+    }
+    return item;
   }
 
-  update(id: number, updateCustomerDto: UpdateCustomerDto) {
-    return `This action updates a #${id} customer`;
+  async update(id: string, updateCustomerDto: UpdateCustomerDto) {
+    await this.findOne(id);
+
+    const customer = new Customer();
+    customer.id = id;
+    customer.name = updateCustomerDto.name;
+    customer.email = updateCustomerDto.email;
+    return this.customerRepository.update(customer);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} customer`;
+  async remove(id: string) {
+    await this.findOne(id);
+
+    await this.customerRepository.remove(id);
+
+    return;
   }
 }

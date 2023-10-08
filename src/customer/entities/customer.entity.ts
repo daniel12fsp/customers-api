@@ -1,3 +1,7 @@
 export class Customer {
-  @AutoGenerateAttribute({
+  id: string;
+
+  name: string;
+
+  email: string;
 }

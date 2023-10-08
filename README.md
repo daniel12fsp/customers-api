@@ -2,6 +2,10 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Requirements
+
+- Node v18.15.0
+
 ## Installation
 
 ```bash
@@ -16,9 +20,6 @@ $ npm run start
 
 # watch mode
 $ npm run start:dev
-
-# production mode
-$ npm run start:prod
 ```
 
 ## Test
@@ -27,13 +28,23 @@ $ npm run start:prod
 # unit tests
 $ npm run test
 
-# e2e tests
-$ npm run test:e2e
-
 # test coverage
 $ npm run test:cov
 ```
 
+## Deploy
 
-npm run build
-serverless deploy
+
+```bash
+# deploy
+$ npm run deploy
+```
+
+## Feature
+
+- Implementation of crud for dynamodb
+- Swagger documentation
+- Validation of there is some fields missings
+- Support for serverless framework
+- Unity test for customer's service
+
