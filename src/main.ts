@@ -20,7 +20,7 @@ export async function setupNestApp() {
     .setDescription('The customers API description')
     .setVersion('1.0')
     .addServer(
-      'https://99fyxf8tea.execute-api.us-east-1.amazonaws.com/dev',
+      'https://rlnwk5ruog.execute-api.us-east-1.amazonaws.com/dev',
       'production-server',
     )
     .build();
