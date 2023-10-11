@@ -36,4 +36,5 @@ async function bootstrap() {
   const app = await setupNestApp();
   await app.listen(3000);
 }
+
 bootstrap();
